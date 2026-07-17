@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candy Delight - Ultimate Crush Match-3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fredoka for playful game text, Outfit for clean modern UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SVG Candy Templates for Rendering -->
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <!-- Gradients -->
+    <defs>
+      <!-- Red Candy Gradient -->
+      <radialGradient id="grad-red" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#ff7b93" />
+        <stop offset="70%" stop-color="#ff1a40" />
+        <stop offset="100%" stop-color="#a6001a" />
+      </radialGradient>
+      <!-- Blue Candy Gradient -->
+      <radialGradient id="grad-blue" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#7be3ff" />
+        <stop offset="70%" stop-color="#1abaff" />
+        <stop offset="100%" stop-color="#006fa6" />
+      </radialGradient>
+      <!-- Green Candy Gradient -->
+      <radialGradient id="grad-green" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#a2ff7b" />
+        <stop offset="70%" stop-color="#4bff1a" />
+        <stop offset="100%" stop-color="#219c00" />
+      </radialGradient>
+      <!-- Yellow Candy Gradient -->
+      <radialGradient id="grad-yellow" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#ffffad" />
+        <stop offset="70%" stop-color="#ffd01a" />
+        <stop offset="100%" stop-color="#a67b00" />
+      </radialGradient>
+      <!-- Orange Candy Gradient -->
+      <radialGradient id="grad-orange" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#ffbe7b" />
+        <stop offset="70%" stop-color="#ff731a" />
+        <stop offset="100%" stop-color="#a63e00" />
+      </radialGradient>
+      <!-- Purple Candy Gradient -->
+      <radialGradient id="grad-purple" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#e87bff" />
+        <stop offset="70%" stop-color="#af1aff" />
+        <stop offset="100%" stop-color="#6900a3" />
+      </radialGradient>
+      <!-- Color Bomb Gradient -->
+      <radialGradient id="grad-bomb" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#4d4d4d" />
+        <stop offset="80%" stop-color="#151515" />
+        <stop offset="100%" stop-color="#000000" />
+      </radialGradient>
+      
+      <!-- Filters -->
+      <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity="0.3" />
+      </filter>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+    </defs>
+
+    <!-- RED CANDY (Jelly Bean) -->
+    <symbol id="candy-0" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="50" rx="36" ry="24" transform="rotate(-15 50 50)" fill="url(#grad-red)" filter="url(#shadow)" />
+      <!-- Highlight -->
+      <ellipse cx="40" cy="38" rx="12" ry="6" transform="rotate(-15 40 38)" fill="#ffffff" opacity="0.6" />
+    </symbol>
+
+    <!-- BLUE CANDY (Drop) -->
+    <symbol id="candy-1" viewBox="0 0 100 100">
+      <path d="M 50 15 C 68 42, 82 56, 82 70 C 82 86, 68 90, 50 90 C 32 90, 18 86, 18 70 C 18 56, 32 42, 50 15 Z" fill="url(#grad-blue)" filter="url(#shadow)" />
+      <!-- Highlight -->
+      <path d="M 46 28 C 54 44, 60 52, 60 62 C 60 70, 56 72, 46 72 C 38 72, 34 70, 34 62 C 34 52, 38 44, 46 28 Z" fill="#ffffff" opacity="0.4" />
+      <circle cx="44" cy="38" r="4" fill="#ffffff" opacity="0.7" />
+    </symbol>
+
+    <!-- GREEN CANDY (Square) -->
+    <symbol id="candy-2" viewBox="0 0 100 100">
+      <rect x="18" y="18" width="64" height="64" rx="16" transform="rotate(45 50 50)" fill="url(#grad-green)" filter="url(#shadow)" />
+      <!-- Highlight -->
+      <rect x="26" y="26" width="48" height="48" rx="10" transform="rotate(45 50 50)" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.3" />
+      <circle cx="50" cy="34" r="5" fill="#ffffff" opacity="0.6" />
+    </symbol>
+
+    <!-- YELLOW CANDY (Lemon Drop) -->
+    <symbol id="candy-3" viewBox="0 0 100 100">
+      <path d="M 16 50 C 30 25, 70 25, 84 50 C 70 75, 30 75, 16 50 Z" fill="url(#grad-yellow)" filter="url(#shadow)" />
+      <!-- Highlight -->
+      <path d="M 28 50 C 38 35, 62 35, 72 50" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.5" />
+      <circle cx="50" cy="42" r="5" fill="#ffffff" opacity="0.8" />
+    </symbol>
+
+    <!-- ORANGE CANDY (Triangle/Lozenge) -->
+    <symbol id="candy-4" viewBox="0 0 100 100">
+      <path d="M 50 16 L 86 78 C 88 82, 84 86, 78 86 L 22 86 C 16 86, 12 82, 14 78 Z" fill="url(#grad-orange)" filter="url(#shadow)" />
+      <!-- Highlight -->
+      <path d="M 50 28 L 72 70 C 73 72, 71 74, 68 74 L 32 74 C 29 74, 27 72, 28 70 Z" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.4" />
+      <circle cx="50" cy="48" r="4" fill="#ffffff" opacity="0.7" />
+    </symbol>
+
+    <!-- PURPLE CANDY (Flower/Star) -->
+    <symbol id="candy-5" viewBox="0 0 100 100">
+      <path d="M 50 12 C 55 25, 68 25, 76 16 C 80 28, 70 36, 84 40 C 74 48, 74 61, 84 68 C 70 72, 80 84, 68 84 C 61 74, 48 74, 40 84 C 36 70, 24 80, 24 68 C 34 61, 34 48, 24 40 C 38 36, 28 24, 40 24 C 48 34, 45 12, 50 12 Z" fill="url(#grad-purple)" filter="url(#shadow)" />
+      <!-- Inner detail -->
+      <circle cx="50" cy="50" r="16" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.4" />
+      <circle cx="50" cy="50" r="8" fill="#ffffff" opacity="0.6" />
+    </symbol>
+
+    <!-- COLOR BOMB (Chocolate Ball with Sprinkles) -->
+    <symbol id="candy-bomb" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="38" fill="url(#grad-bomb)" filter="url(#shadow)" />
+      <!-- Sprinkles (Small colored capsules) -->
+      <rect x="46" y="24" width="8" height="14" rx="4" fill="#ff1a40" transform="rotate(15 50 31)" />
+      <rect x="28" y="38" width="8" height="14" rx="4" fill="#1abaff" transform="rotate(-45 32 45)" />
+      <rect x="36" y="64" width="8" height="14" rx="4" fill="#4bff1a" transform="rotate(30 40 71)" />
+      <rect x="64" y="60" width="8" height="14" rx="4" fill="#ffd01a" transform="rotate(-30 68 67)" />
+      <rect x="62" y="32" width="8" height="14" rx="4" fill="#af1aff" transform="rotate(60 66 39)" />
+      <rect x="46" y="48" width="8" height="12" rx="4" fill="#ff731a" transform="rotate(-10 50 54)" />
+      <!-- Shine/Glow overlay -->
+      <ellipse cx="40" cy="30" rx="14" ry="8" transform="rotate(-20 40 30)" fill="#ffffff" opacity="0.25" />
+    </symbol>
+
+    <!-- Special Candy Overlays -->
+    <!-- Horizontal Stripes -->
+    <symbol id="stripe-h" viewBox="0 0 100 100">
+      <line x1="10" y1="35" x2="90" y2="35" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85" filter="url(#glow)" />
+      <line x1="5" y1="50" x2="95" y2="50" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.9" filter="url(#glow)" />
+      <line x1="10" y1="65" x2="90" y2="65" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85" filter="url(#glow)" />
+    </symbol>
+
+    <!-- Vertical Stripes -->
+    <symbol id="stripe-v" viewBox="0 0 100 100">
+      <line x1="35" y1="10" x2="35" y2="90" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85" filter="url(#glow)" />
+      <line x1="50" y1="5" x2="50" y2="95" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.9" filter="url(#glow)" />
+      <line x1="65" y1="10" x2="65" y2="90" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85" filter="url(#glow)" />
+    </symbol>
+
+    <!-- Wrapped (Cellophane Wings) -->
+    <symbol id="wrapped-wing" viewBox="0 0 100 100">
+      <!-- Left bow-tie wing -->
+      <path d="M 22 50 L 2 32 L 2 68 Z" fill="#ffffff" opacity="0.4" filter="url(#shadow)" />
+      <path d="M 22 50 L 8 40 L 8 60 Z" fill="#ffffff" opacity="0.7" />
+      <!-- Right bow-tie wing -->
+      <path d="M 78 50 L 98 32 L 98 68 Z" fill="#ffffff" opacity="0.4" filter="url(#shadow)" />
+      <path d="M 78 50 L 92 40 L 92 60 Z" fill="#ffffff" opacity="0.7" />
+    </symbol>
+  </svg>
+
+  <!-- Application Container -->
+  <div id="app-container">
+
+    <!-- Background Sparkles / Decorative Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- 1. SPLASH SCREEN -->
+    <section id="splash-screen" class="screen active">
+      <div class="splash-content glass-card">
+        <h1 class="logo-text">Candy<span>Delight</span></h1>
+        <p class="subtitle">A Delicious Match-3 Adventure</p>
+        
+        <div class="candy-display">
+          <svg class="floating-candy c-red"><use href="#candy-0"></use></svg>
+          <svg class="floating-candy c-blue"><use href="#candy-1"></use></svg>
+          <svg class="floating-candy c-green"><use href="#candy-2"></use></svg>
+          <svg class="floating-candy c-yellow"><use href="#candy-3"></use></svg>
+        </div>
+
+        <button id="btn-play-now" class="btn btn-primary btn-lg">Play Adventure</button>
+        
+        <div class="splash-options">
+          <button id="btn-splash-how-to" class="btn btn-secondary">How to Play</button>
+        </div>
+
+        <div class="footer-credit">
+          Designed with Premium Haptics & Web Audio
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. LEVEL MAP SCREEN -->
+    <section id="map-screen" class="screen">
+      <header class="map-header">
+        <button id="btn-map-back" class="btn-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"/></svg>
+        </button>
+        <h2>Select Level</h2>
+        <div class="map-stats glass-pill">
+          <span id="map-total-stars">⭐ 0/30</span>
+        </div>
+      </header>
+
+      <div class="map-container">
+        <!-- Level Node track will be generated in JS -->
+        <div class="level-path" id="level-path-container">
+          <!-- Dynamically populated map path -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. GAME SCREEN -->
+    <section id="game-screen" class="screen">
+      <header class="game-header glass-card">
+        <div class="header-left">
+          <button id="btn-game-back" class="btn-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"/></svg>
+          </button>
+          <div class="level-badge-container">
+            <span class="level-label">Level</span>
+            <span id="game-level-num">1</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="moves-container">
+            <div id="game-moves-left" class="moves-number">25</div>
+            <div class="moves-label">Moves Left</div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Game Objective / Target Display -->
+          <div class="target-container glass-pill">
+            <div class="target-title">Goal</div>
+            <div id="game-goals" class="goals-list">
+              <!-- e.g. "Score: 10,000" or Jelly icons -->
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Score Bar & Progress milestones -->
+      <div class="score-progress-container glass-card">
+        <div class="score-numeric">
+          <span>Score: <strong id="game-current-score">0</strong></span>
+        </div>
+        <div class="progress-bar-wrapper">
+          <div id="game-score-bar" class="progress-bar" style="width: 0%"></div>
+          <!-- Star milestone indicators -->
+          <div class="star-milestone milestone-1" id="star-m-1">⭐</div>
+          <div class="star-milestone milestone-2" id="star-m-2">⭐</div>
+          <div class="star-milestone milestone-3" id="star-m-3">⭐</div>
+        </div>
+      </div>
+
+      <!-- Main Game Board Container -->
+      <div class="board-outer-container">
+        <div id="game-board" class="board-grid">
+          <!-- Grid cells and candies generated dynamically -->
+        </div>
+        <!-- Particle & Sparkle Effect Canvas -->
+        <canvas id="effects-canvas"></canvas>
+      </div>
+
+      <!-- Bottom Dashboard / Settings -->
+      <footer class="game-footer glass-card">
+        <button id="btn-toggle-sound" class="btn-footer-control" title="Toggle Sound">
+          <svg id="sound-icon-on" viewBox="0 0 24 24" width="22" height="22"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+          <svg id="sound-icon-off" viewBox="0 0 24 24" width="22" height="22" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/></svg>
+        </button>
+
+        <button id="btn-toggle-haptics" class="btn-footer-control" title="Toggle Haptics">
+          <svg id="haptic-icon-on" viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="currentColor"/></svg>
+          <span class="control-label">Vibe</span>
+        </button>
+
+        <button id="btn-game-restart" class="btn-footer-control" title="Restart Level">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg>
+        </button>
+      </footer>
+    </section>
+
+    <!-- 4. MODALS & OVERLAYS -->
+    
+    <!-- General Modal Overlay (Glass Panel) -->
+    <div id="modal-overlay" class="modal-overlay">
+      
+      <!-- LEVEL INTRO MODAL -->
+      <div id="modal-level-intro" class="modal-card glass-card">
+        <h3 class="modal-title">Level <span id="intro-level-num">1</span></h3>
+        
+        <div class="intro-stats">
+          <div class="intro-stat-box">
+            <span class="lbl">Moves</span>
+            <span id="intro-moves-val" class="val">25</span>
+          </div>
+          <div class="intro-stat-box">
+            <span class="lbl">Target Score</span>
+            <span id="intro-target-score" class="val">1,000</span>
+          </div>
+        </div>
+
+        <div class="intro-goals-section">
+          <h4>Level Objectives</h4>
+          <div id="intro-goals-container" class="intro-goals-container">
+            <!-- Dynamic goal list with icons (e.g. jellies, score) -->
+          </div>
+        </div>
+
+        <div class="intro-high-score">
+          🏆 High Score: <span id="intro-high-score-val">0</span>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-intro-close" class="btn btn-secondary">Map</button>
+          <button id="btn-intro-start" class="btn btn-primary">Crush It!</button>
+        </div>
+      </div>
+
+      <!-- VICTORY MODAL -->
+      <div id="modal-victory" class="modal-card glass-card" style="display:none;">
+        <div class="modal-badge-icon victory-glow">🏆</div>
+        <h3 class="modal-title text-success">Delicious!</h3>
+        <p class="modal-subtitle">Level Completed successfully</p>
+        
+        <div class="stars-display">
+          <span id="victory-star-1" class="modal-star locked">⭐</span>
+          <span id="victory-star-2" class="modal-star locked">⭐</span>
+          <span id="victory-star-3" class="modal-star locked">⭐</span>
+        </div>
+
+        <div class="victory-stats">
+          <div class="v-stat">
+            <span class="lbl">Score</span>
+            <span id="victory-score-val" class="val">12,450</span>
+          </div>
+          <div class="v-stat">
+            <span class="lbl">High Score</span>
+            <span id="victory-high-score-val" class="val">12,450</span>
+          </div>
+        </div>
+
+        <div class="modal-actions vertical-actions">
+          <button id="btn-victory-next" class="btn btn-primary btn-lg">Next Level</button>
+          <div class="horizontal-actions">
+            <button id="btn-victory-retry" class="btn btn-secondary">Retry</button>
+            <button id="btn-victory-map" class="btn btn-secondary">Map</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEFEAT MODAL -->
+      <div id="modal-defeat" class="modal-card glass-card" style="display:none;">
+        <div class="modal-badge-icon defeat-glow">😢</div>
+        <h3 class="modal-title text-danger">Out of Moves</h3>
+        <p class="modal-subtitle">You didn't reach the level targets.</p>
+
+        <div class="defeat-stats">
+          <div class="d-stat">
+            <span class="lbl">Your Score</span>
+            <span id="defeat-score-val" class="val">4,500</span>
+          </div>
+          <div class="d-stat">
+            <span class="lbl">Target</span>
+            <span id="defeat-target-val" class="val">8,000</span>
+          </div>
+        </div>
+
+        <div class="modal-goals-left">
+          <h4>Goals Remaining</h4>
+          <div id="defeat-goals-container" class="defeat-goals-container">
+            <!-- Show what was missing, e.g. jellies or score -->
+          </div>
+        </div>
+
+        <div class="modal-actions vertical-actions">
+          <button id="btn-defeat-retry" class="btn btn-primary btn-lg">Try Again</button>
+          <button id="btn-defeat-map" class="btn btn-secondary">Back to Map</button>
+        </div>
+      </div>
+
+      <!-- HOW TO PLAY MODAL -->
+      <div id="modal-how-to" class="modal-card glass-card" style="display:none;">
+        <h3 class="modal-title">How to Play</h3>
+        
+        <div class="instructions-content">
+          <p>🍬 Swap adjacent candies to align 3 or more of the same color.</p>
+          <p>⚡ <strong>Match 4:</strong> Creates a <strong>Striped Candy</strong> (clears whole rows or columns).</p>
+          <p>📦 <strong>Match 5 in L/T:</strong> Creates a <strong>Wrapped Candy</strong> (explodes twice in a 3x3 grid).</p>
+          <p>🌈 <strong>Match 5 in a Line:</strong> Creates a <strong>Color Bomb</strong>. Swap it with any candy to clear all candies of that color!</p>
+          <p>🧼 <strong>Jelly Levels:</strong> Clear jelly by matching candies on top of them.</p>
+          <p>🚀 Combine special candies for massive explosions!</p>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-how-to-close" class="btn btn-primary">Got it!</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
